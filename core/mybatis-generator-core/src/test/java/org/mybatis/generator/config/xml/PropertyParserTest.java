@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2018 the original author or authors.
+ *    Copyright 2006-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -137,4 +137,20 @@ public class PropertyParserTest {
         
         assertThat(result).isEqualTo("value1.value2.value3");
     }
+
+	@Test
+	public void testNestedValues() {
+		Properties properties = new Properties();
+		properties.put("domain", "foo");
+		properties.put("project.foo", "pfoo");
+		properties.put("addr", "localhost");
+		properties.put("env.localhost", "dev");
+		properties.put("jdbc.pfoo.dev.url", "mysql");
+
+		MyBatisGeneratorConfigurationParser parser = new MyBatisGeneratorConfigurationParser(properties);
+
+		String result = parser.parsePropertyTokens("${jdbc.${project.${domain}}.${env.${addr}}.url}");
+
+		assertThat(result).isEqualTo("mysql");
+	}
 }
