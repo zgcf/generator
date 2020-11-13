@@ -105,6 +105,16 @@ public class RulesDelegate implements Rules {
     }
 
     @Override
+    public boolean generateSelectByModel() {
+        return rules.generateSelectByModel();
+    }
+
+    @Override
+    public boolean generateCountByModel() {
+        return rules.generateCountByModel();
+    }
+
+    @Override
     public boolean generateInsertSelective() {
         return rules.generateInsertSelective();
     }
@@ -197,5 +207,10 @@ public class RulesDelegate implements Rules {
     @Override
     public boolean generateJavaClient() {
         return rules.generateJavaClient();
+    }
+
+    @Override
+    public boolean generateJavaSearchMode() {
+        return rules.generateJavaSearchMode();
     }
 }

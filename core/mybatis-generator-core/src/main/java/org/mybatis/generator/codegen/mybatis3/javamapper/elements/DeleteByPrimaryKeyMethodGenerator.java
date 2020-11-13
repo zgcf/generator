@@ -15,9 +15,7 @@
  */
 package org.mybatis.generator.codegen.mybatis3.javamapper.elements;
 
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
@@ -44,11 +42,13 @@ public class DeleteByPrimaryKeyMethodGenerator extends
         method.setAbstract(true);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
 
+        List<String> list = new ArrayList<>();
         if (!isSimple && introspectedTable.getRules().generatePrimaryKeyClass()) {
             FullyQualifiedJavaType type = new FullyQualifiedJavaType(
                     introspectedTable.getPrimaryKeyType());
             importedTypes.add(type);
-            method.addParameter(new Parameter(type, "key")); //$NON-NLS-1$
+            method.addParameter(new Parameter(type, "key"));
+            list.add(" * @param key");
         } else {
             // no primary key class - fields are in the base class
             // if more than one PK field, then we need to annotate the
@@ -75,12 +75,16 @@ public class DeleteByPrimaryKeyMethodGenerator extends
                     sb.append("\")"); //$NON-NLS-1$
                     parameter.addAnnotation(sb.toString());
                 }
+
+                list.add(" * @param " + parameter.getName()+" "+introspectedTable.getFullyQualifiedTable()+"."+introspectedColumn.getActualColumnName());
                 method.addParameter(parameter);
             }
         }
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
+        String remark ="按照表"+introspectedTable.getFullyQualifiedTable()+"的PRIMARY_KEY删除一条记录";
+        list.add(" * @return 返回删除记录的条数");
+
+        context.getCommentGenerator().addGeneralMethodComment(method,remark,list);
 
         addMapperAnnotations(method);
         

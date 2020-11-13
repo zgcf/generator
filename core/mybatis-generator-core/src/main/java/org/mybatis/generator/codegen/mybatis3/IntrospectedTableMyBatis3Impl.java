@@ -31,10 +31,7 @@ import org.mybatis.generator.codegen.AbstractXmlGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.AnnotatedClientGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.JavaMapperGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.MixedClientGenerator;
-import org.mybatis.generator.codegen.mybatis3.model.BaseRecordGenerator;
-import org.mybatis.generator.codegen.mybatis3.model.ExampleGenerator;
-import org.mybatis.generator.codegen.mybatis3.model.PrimaryKeyGenerator;
-import org.mybatis.generator.codegen.mybatis3.model.RecordWithBLOBsGenerator;
+import org.mybatis.generator.codegen.mybatis3.model.*;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
 import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.internal.ObjectFactory;
@@ -59,6 +56,8 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
     public void calculateGenerators(List<String> warnings,
             ProgressCallback progressCallback) {
         calculateJavaModelGenerators(warnings, progressCallback);
+
+        calculateSearchModeGenerators(warnings, progressCallback);
         
         AbstractJavaClientGenerator javaClientGenerator =
                 calculateClientGenerators(warnings, progressCallback);
@@ -96,6 +95,18 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
         javaGenerators.add(javaGenerator);
 
         return javaGenerator;
+    }
+
+
+    protected void calculateSearchModeGenerators(List<String> warnings, ProgressCallback progressCallback) {
+        if (!rules.generateJavaSearchMode()) {
+            return;
+        }
+
+        AbstractJavaGenerator javaGenerator = new SearchModeGenerator(getSearchModelProject());
+        initializeAbstractGenerator(javaGenerator, warnings,
+                progressCallback);
+        javaGenerators.add(javaGenerator);
     }
 
     protected AbstractJavaClientGenerator createJavaClientGenerator() {
@@ -192,6 +203,9 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
 
     protected String getModelProject() {
         return context.getJavaModelGeneratorConfiguration().getTargetProject();        
+    }
+    protected String getSearchModelProject() {
+        return context.getJavaSearchModelGeneratorConfiguration().getTargetProject();
     }
     
     protected String getExampleProject() {

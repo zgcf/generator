@@ -15,16 +15,11 @@
  */
 package org.mybatis.generator.api;
 
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import org.mybatis.generator.api.dom.java.CompilationUnit;
-import org.mybatis.generator.api.dom.java.Field;
-import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
-import org.mybatis.generator.api.dom.java.InnerClass;
-import org.mybatis.generator.api.dom.java.InnerEnum;
-import org.mybatis.generator.api.dom.java.Method;
-import org.mybatis.generator.api.dom.java.TopLevelClass;
+import org.mybatis.generator.api.dom.java.*;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 
 /**
@@ -89,7 +84,7 @@ public interface CommentGenerator {
      * @param introspectedTable
      *            the introspected table
      */
-    void addModelClassComment(TopLevelClass topLevelClass,
+    void addModelClassComment(JavaElement topLevelClass,
             IntrospectedTable introspectedTable);
 
     /**
@@ -165,6 +160,19 @@ public interface CommentGenerator {
      */
     void addGeneralMethodComment(Method method,
             IntrospectedTable introspectedTable);
+
+
+    /**
+     * Adds the general method comment.
+     *
+     * @param method
+     *            the method
+     * @param remark
+     *            the introspected table
+     * @param paramOrReturnStr
+     *            the introspected table
+     */
+    void addGeneralMethodComment(Method method, String remark, List<String> paramOrReturnStr);
 
     /**
      * This method is called to add a file level comment to a generated java file. This method

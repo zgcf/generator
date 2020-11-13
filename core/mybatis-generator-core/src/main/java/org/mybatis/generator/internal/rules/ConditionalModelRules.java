@@ -84,6 +84,6 @@ public class ConditionalModelRules extends BaseRules {
                 + introspectedTable.getBaseColumns().size();
 
         return otherColumnCount > 1
-                && introspectedTable.getBLOBColumns().size() > 1;
+                && introspectedTable.getBLOBColumns().size() >= 1;
     }
 }

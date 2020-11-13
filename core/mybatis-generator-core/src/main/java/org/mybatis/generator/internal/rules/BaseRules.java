@@ -61,6 +61,22 @@ public abstract class BaseRules implements Rules {
 
         return tableConfiguration.isInsertStatementEnabled();
     }
+    @Override
+    public boolean generateSelectByModel() {
+        if (isModelOnly) {
+            return false;
+        }
+
+        return tableConfiguration.isSelectByModelEnabled();
+    }
+    @Override
+    public boolean generateCountByModel() {
+        if (isModelOnly) {
+            return false;
+        }
+
+        return tableConfiguration.isCountByModelEnabled();
+    }
 
     /**
      * Implements the rule for generating the insert selective SQL Map element
@@ -427,6 +443,12 @@ public abstract class BaseRules implements Rules {
 
     @Override
     public boolean generateJavaClient() {
+        return !isModelOnly;
+    }
+
+
+    @Override
+    public boolean generateJavaSearchMode() {
         return !isModelOnly;
     }
 }

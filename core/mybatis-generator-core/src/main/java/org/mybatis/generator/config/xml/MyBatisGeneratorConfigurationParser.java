@@ -27,26 +27,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import org.mybatis.generator.config.ColumnOverride;
-import org.mybatis.generator.config.ColumnRenamingRule;
-import org.mybatis.generator.config.CommentGeneratorConfiguration;
-import org.mybatis.generator.config.Configuration;
-import org.mybatis.generator.config.ConnectionFactoryConfiguration;
-import org.mybatis.generator.config.Context;
-import org.mybatis.generator.config.DomainObjectRenamingRule;
-import org.mybatis.generator.config.GeneratedKey;
-import org.mybatis.generator.config.IgnoredColumn;
-import org.mybatis.generator.config.IgnoredColumnException;
-import org.mybatis.generator.config.IgnoredColumnPattern;
-import org.mybatis.generator.config.JDBCConnectionConfiguration;
-import org.mybatis.generator.config.JavaClientGeneratorConfiguration;
-import org.mybatis.generator.config.JavaModelGeneratorConfiguration;
-import org.mybatis.generator.config.JavaTypeResolverConfiguration;
-import org.mybatis.generator.config.ModelType;
-import org.mybatis.generator.config.PluginConfiguration;
-import org.mybatis.generator.config.PropertyHolder;
-import org.mybatis.generator.config.SqlMapGeneratorConfiguration;
-import org.mybatis.generator.config.TableConfiguration;
+import org.mybatis.generator.config.*;
 import org.mybatis.generator.exception.XMLParserException;
 import org.mybatis.generator.internal.ObjectFactory;
 import org.w3c.dom.Element;
@@ -186,6 +167,8 @@ public class MyBatisGeneratorConfigurationParser {
                 parseConnectionFactory(context, childNode);
             } else if ("javaModelGenerator".equals(childNode.getNodeName())) { //$NON-NLS-1$
                 parseJavaModelGenerator(context, childNode);
+            } else if ("javaSearchModelGenerator".equals(childNode.getNodeName())) { //$NON-NLS-1$
+                parseJavaSearchModelGenerator(context, childNode);
             } else if ("javaTypeResolver".equals(childNode.getNodeName())) { //$NON-NLS-1$
                 parseJavaTypeResolver(context, childNode);
             } else if ("sqlMapGenerator".equals(childNode.getNodeName())) { //$NON-NLS-1$
@@ -582,8 +565,7 @@ public class MyBatisGeneratorConfigurationParser {
     protected void parseJavaModelGenerator(Context context, Node node) {
         JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
 
-        context
-                .setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
+        context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
 
         Properties attributes = parseAttributes(node);
         String targetPackage = attributes.getProperty("targetPackage"); //$NON-NLS-1$
@@ -602,6 +584,34 @@ public class MyBatisGeneratorConfigurationParser {
 
             if ("property".equals(childNode.getNodeName())) { //$NON-NLS-1$
                 parseProperty(javaModelGeneratorConfiguration, childNode);
+            }
+        }
+    }
+
+
+
+    protected void parseJavaSearchModelGenerator(Context context, Node node) {
+        JavaSearchModelGeneratorConfiguration javaSearchModelGeneratorConfiguration = new JavaSearchModelGeneratorConfiguration();
+
+        context.setJavaSearchModelGeneratorConfiguration(javaSearchModelGeneratorConfiguration);
+
+        Properties attributes = parseAttributes(node);
+        String targetPackage = attributes.getProperty("targetPackage"); //$NON-NLS-1$
+        String targetProject = attributes.getProperty("targetProject"); //$NON-NLS-1$
+
+        javaSearchModelGeneratorConfiguration.setTargetPackage(targetPackage);
+        javaSearchModelGeneratorConfiguration.setTargetProject(targetProject);
+
+        NodeList nodeList = node.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node childNode = nodeList.item(i);
+
+            if (childNode.getNodeType() != Node.ELEMENT_NODE) {
+                continue;
+            }
+
+            if ("property".equals(childNode.getNodeName())) { //$NON-NLS-1$
+                parseProperty(javaSearchModelGeneratorConfiguration, childNode);
             }
         }
     }

@@ -30,15 +30,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.mybatis.generator.config.Context;
-import org.mybatis.generator.config.GeneratedKey;
-import org.mybatis.generator.config.JavaClientGeneratorConfiguration;
-import org.mybatis.generator.config.JavaModelGeneratorConfiguration;
-import org.mybatis.generator.config.ModelType;
-import org.mybatis.generator.config.PropertyHolder;
-import org.mybatis.generator.config.PropertyRegistry;
-import org.mybatis.generator.config.SqlMapGeneratorConfiguration;
-import org.mybatis.generator.config.TableConfiguration;
+import org.mybatis.generator.config.*;
 import org.mybatis.generator.internal.rules.ConditionalModelRules;
 import org.mybatis.generator.internal.rules.FlatModelRules;
 import org.mybatis.generator.internal.rules.HierarchicalModelRules;
@@ -77,10 +69,13 @@ public abstract class IntrospectedTable {
         ATTR_DELETE_BY_PRIMARY_KEY_STATEMENT_ID,
         ATTR_INSERT_STATEMENT_ID,
         ATTR_INSERT_SELECTIVE_STATEMENT_ID,
+        ATTR_INSERT_BATCH_STATEMENT_ID,
         ATTR_SELECT_ALL_STATEMENT_ID,
         ATTR_SELECT_BY_EXAMPLE_STATEMENT_ID,
         ATTR_SELECT_BY_EXAMPLE_WITH_BLOBS_STATEMENT_ID,
         ATTR_SELECT_BY_PRIMARY_KEY_STATEMENT_ID,
+        ATTR_SELECT_BY_MODEL_STATEMENT_ID,
+        ATTR_COUNT_BY_MODEL_STATEMENT_ID,
         ATTR_UPDATE_BY_EXAMPLE_STATEMENT_ID,
         ATTR_UPDATE_BY_EXAMPLE_SELECTIVE_STATEMENT_ID,
         ATTR_UPDATE_BY_EXAMPLE_WITH_BLOBS_STATEMENT_ID,
@@ -94,7 +89,8 @@ public abstract class IntrospectedTable {
         ATTR_BLOB_COLUMN_LIST_ID,
         ATTR_MYBATIS3_UPDATE_BY_EXAMPLE_WHERE_CLAUSE_ID,
         ATTR_MYBATIS3_SQL_PROVIDER_TYPE,
-        ATTR_MYBATIS_DYNAMIC_SQL_SUPPORT_TYPE
+        ATTR_MYBATIS_DYNAMIC_SQL_SUPPORT_TYPE,
+        ATTR_SEARCH_RECORD_TYPE
     }
 
     protected TableConfiguration tableConfiguration;
@@ -279,6 +275,10 @@ public abstract class IntrospectedTable {
         return internalAttributes.get(InternalAttribute.ATTR_BASE_RECORD_TYPE);
     }
 
+    public String getSearchRecordType() {
+        return internalAttributes.get(InternalAttribute.ATTR_SEARCH_RECORD_TYPE);
+    }
+
     /**
      * Gets the example type.
      *
@@ -382,6 +382,7 @@ public abstract class IntrospectedTable {
     public void initialize() {
         calculateJavaClientAttributes();
         calculateModelAttributes();
+        calculateSearchModelAttributes();
         calculateXmlAttributes();
 
         if (tableConfiguration.getModelType() == ModelType.HIERARCHICAL) {
@@ -413,6 +414,9 @@ public abstract class IntrospectedTable {
         setSelectByExampleStatementId("selectByExample"); //$NON-NLS-1$
         setSelectByExampleWithBLOBsStatementId("selectByExampleWithBLOBs"); //$NON-NLS-1$
         setSelectByPrimaryKeyStatementId("selectByPrimaryKey"); //$NON-NLS-1$
+        setSelectByModelStatementId("selectByModel"); //$NON-NLS-1$
+        setCountByModelStatementId("countByModel"); //$NON-NLS-1$
+        setInsertBatchStatementId("insertBatch"); //$NON-NLS-1$
         setUpdateByExampleStatementId("updateByExample"); //$NON-NLS-1$
         setUpdateByExampleSelectiveStatementId("updateByExampleSelective"); //$NON-NLS-1$
         setUpdateByExampleWithBLOBsStatementId("updateByExampleWithBLOBs"); //$NON-NLS-1$
@@ -513,6 +517,20 @@ public abstract class IntrospectedTable {
                 InternalAttribute.ATTR_SELECT_BY_EXAMPLE_STATEMENT_ID, s);
     }
 
+    public void setSelectByModelStatementId(String s) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_SELECT_BY_MODEL_STATEMENT_ID, s);
+    }
+
+    public void setInsertBatchStatementId(String s) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_INSERT_BATCH_STATEMENT_ID, s);
+    }
+
+    public void setCountByModelStatementId(String s) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_COUNT_BY_MODEL_STATEMENT_ID, s);
+    }
     public void setInsertSelectiveStatementId(String s) {
         internalAttributes.put(
                 InternalAttribute.ATTR_INSERT_SELECTIVE_STATEMENT_ID, s);
@@ -615,6 +633,21 @@ public abstract class IntrospectedTable {
     public String getSelectByExampleStatementId() {
         return internalAttributes
                 .get(InternalAttribute.ATTR_SELECT_BY_EXAMPLE_STATEMENT_ID);
+    }
+
+    public String getSelectByModelStatementId() {
+        return internalAttributes
+                .get(InternalAttribute.ATTR_SELECT_BY_MODEL_STATEMENT_ID);
+    }
+
+    public String getInsertBatchStatementId() {
+        return internalAttributes
+                .get(InternalAttribute.ATTR_INSERT_BATCH_STATEMENT_ID);
+    }
+
+    public String getCountByModelStatementId() {
+        return internalAttributes
+                .get(InternalAttribute.ATTR_COUNT_BY_MODEL_STATEMENT_ID);
     }
 
     public String getInsertSelectiveStatementId() {
@@ -734,6 +767,17 @@ public abstract class IntrospectedTable {
         return sb.toString();
     }
 
+    protected String calculateJavaSearchModelPackage() {
+        JavaSearchModelGeneratorConfiguration config = context
+                .getJavaSearchModelGeneratorConfiguration();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(config.getTargetPackage());
+        sb.append(fullyQualifiedTable.getSubPackageForModel(isSubPackagesEnabled(config)));
+
+        return sb.toString();
+    }
+
     protected void calculateModelAttributes() {
         String pakkage = calculateJavaModelPackage();
 
@@ -765,6 +809,17 @@ public abstract class IntrospectedTable {
         sb.append("Example"); //$NON-NLS-1$
         setExampleType(sb.toString());
     }
+    protected void calculateSearchModelAttributes() {
+        String pakkage = calculateJavaSearchModelPackage();
+
+        StringBuilder sb = new StringBuilder();
+        sb.setLength(0);
+        sb.append(pakkage);
+        sb.append('.');
+        sb.append(fullyQualifiedTable.getDomainObjectName());
+        sb.append("SearchVO");
+        setSearchRecordType(sb.toString());
+    }
 
     /**
      * If property exampleTargetPackage specified for example use the specified value, else
@@ -779,6 +834,19 @@ public abstract class IntrospectedTable {
             return calculateJavaModelPackage();
         }
         
+        StringBuilder sb = new StringBuilder();
+        sb.append(exampleTargetPackage);
+        sb.append(fullyQualifiedTable.getSubPackageForModel(isSubPackagesEnabled(config)));
+        return sb.toString();
+    }
+
+    protected String calculateJavaSearchModelExamplePackage() {
+        JavaSearchModelGeneratorConfiguration config = context.getJavaSearchModelGeneratorConfiguration();
+        String exampleTargetPackage = config.getProperty(PropertyRegistry.MODEL_GENERATOR_EXAMPLE_PACKAGE);
+        if (!stringHasValue(exampleTargetPackage)) {
+            return calculateJavaSearchModelPackage();
+        }
+
         StringBuilder sb = new StringBuilder();
         sb.append(exampleTargetPackage);
         sb.append(fullyQualifiedTable.getSubPackageForModel(isSubPackagesEnabled(config)));
@@ -919,6 +987,9 @@ public abstract class IntrospectedTable {
     public void setBaseRecordType(String baseRecordType) {
         internalAttributes.put(InternalAttribute.ATTR_BASE_RECORD_TYPE,
                 baseRecordType);
+    }
+    public String setSearchRecordType(String searchRecordType) {
+        return internalAttributes.put(InternalAttribute.ATTR_SEARCH_RECORD_TYPE,searchRecordType);
     }
 
     public void setRecordWithBLOBsType(String recordWithBLOBsType) {

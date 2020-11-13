@@ -15,6 +15,7 @@
  */
 package org.mybatis.generator.codegen.mybatis3.javamapper.elements;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -49,6 +50,7 @@ public class SelectByPrimaryKeyMethodGenerator extends
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
         importedTypes.add(returnType);
 
+        List<String> list = new ArrayList<>();
         if (!isSimple && introspectedTable.getRules().generatePrimaryKeyClass()) {
             FullyQualifiedJavaType type = new FullyQualifiedJavaType(
                     introspectedTable.getPrimaryKeyType());
@@ -80,14 +82,15 @@ public class SelectByPrimaryKeyMethodGenerator extends
                     sb.append("\")"); //$NON-NLS-1$
                     parameter.addAnnotation(sb.toString());
                 }
+                list.add(" * @param " + parameter.getName()+" "+introspectedTable.getFullyQualifiedTable()+"."+introspectedColumn.getActualColumnName());
                 method.addParameter(parameter);
             }
         }
 
-        addMapperAnnotations(interfaze, method);
+        String remark ="按照表"+introspectedTable.getFullyQualifiedTable()+"的查询一条记录";
+        list.add(" * @return 返回查询的记录");
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
+        context.getCommentGenerator().addGeneralMethodComment(method,remark,list);
 
         if (context.getPlugins().clientSelectByPrimaryKeyMethodGenerated(
                 method, interfaze, introspectedTable)) {

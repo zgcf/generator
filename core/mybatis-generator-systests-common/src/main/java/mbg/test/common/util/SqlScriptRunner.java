@@ -25,6 +25,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 /**
  * This class is used to execute an SQL script before a code generation
@@ -69,7 +70,12 @@ public class SqlScriptRunner {
 
         try {
             Class.forName(driver);
-            connection = DriverManager.getConnection(url, userid, password);
+            Properties props =new Properties();
+            props.setProperty("user", userid);
+            props.setProperty("password", password);
+            props.setProperty("remarks", "true"); //设置可以获取remarks信息
+            props.setProperty("useInformationSchema", "true");//设置可以获取tables remarks信息
+            connection = DriverManager.getConnection(url, props);
 
             Statement statement = connection.createStatement();
 

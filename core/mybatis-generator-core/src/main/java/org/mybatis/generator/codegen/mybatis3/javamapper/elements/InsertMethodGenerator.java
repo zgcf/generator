@@ -15,6 +15,8 @@
  */
 package org.mybatis.generator.codegen.mybatis3.javamapper.elements;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -52,10 +54,13 @@ public class InsertMethodGenerator extends AbstractJavaMapperMethodGenerator {
 
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
         importedTypes.add(parameterType);
-        method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
+        method.addParameter(new Parameter(parameterType, "record"));
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
+        String remark ="在表"+introspectedTable.getFullyQualifiedTable()+"新增一条记录(没有值的字段为空)";
+        List<String> list = new ArrayList<>() ;
+        list.add(" * @param record 将要新增的记录");
+        list.add(" * @return 返回新增记录数");
+        context.getCommentGenerator().addGeneralMethodComment(method,remark,list);
 
         addMapperAnnotations(method);
 

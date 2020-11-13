@@ -46,6 +46,10 @@ public class TableConfiguration extends PropertyHolder {
 
     private boolean updateByExampleStatementEnabled;
 
+    private boolean selectByModelStatementEnabled;
+
+    private boolean countByModelStatementEnabled;
+
     private List<ColumnOverride> columnOverrides;
 
     private Map<IgnoredColumn, Boolean> ignoredColumns;
@@ -99,6 +103,8 @@ public class TableConfiguration extends PropertyHolder {
         deleteByExampleStatementEnabled = true;
         countByExampleStatementEnabled = true;
         updateByExampleStatementEnabled = true;
+        selectByModelStatementEnabled = true;
+        countByModelStatementEnabled = true;
     }
 
     public boolean isDeleteByPrimaryKeyStatementEnabled() {
@@ -112,6 +118,14 @@ public class TableConfiguration extends PropertyHolder {
 
     public boolean isInsertStatementEnabled() {
         return insertStatementEnabled;
+    }
+
+    public boolean isSelectByModelEnabled() {
+        return selectByModelStatementEnabled;
+    }
+
+    public boolean isCountByModelEnabled() {
+        return countByModelStatementEnabled;
     }
 
     public void setInsertStatementEnabled(boolean insertStatementEnabled) {
@@ -257,6 +271,8 @@ public class TableConfiguration extends PropertyHolder {
     public boolean areAnyStatementsEnabled() {
         return selectByExampleStatementEnabled
                 || selectByPrimaryKeyStatementEnabled || insertStatementEnabled
+                || selectByModelStatementEnabled
+                || countByModelStatementEnabled
                 || updateByPrimaryKeyStatementEnabled
                 || deleteByExampleStatementEnabled
                 || deleteByPrimaryKeyStatementEnabled

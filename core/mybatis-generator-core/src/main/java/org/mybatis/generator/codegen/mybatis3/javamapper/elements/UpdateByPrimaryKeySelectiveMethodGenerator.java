@@ -15,6 +15,8 @@
  */
 package org.mybatis.generator.codegen.mybatis3.javamapper.elements;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -51,10 +53,13 @@ public class UpdateByPrimaryKeySelectiveMethodGenerator extends
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setAbstract(true);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
+        method.addParameter(new Parameter(parameterType, "record"));
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
+        String remark ="在表"+introspectedTable.getFullyQualifiedTable()+"修改一条记录，(record 无赋值的不修改)";
+        List<String> list = new ArrayList<>() ;
+        list.add(" * @param record 将要修改的记录，其PRIMARY_KEY字段不能为空");
+        list.add(" * @return 返回修改记录数");
+        context.getCommentGenerator().addGeneralMethodComment(method,remark,list);
 
         addMapperAnnotations(method);
         

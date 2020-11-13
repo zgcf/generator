@@ -36,6 +36,10 @@ public interface Rules {
      */
     boolean generateInsert();
 
+    boolean generateSelectByModel();
+
+    boolean generateCountByModel();
+
     /**
      * Implements the rule for generating the insert selective SQL Map element
      * and DAO method. If the insert statement is allowed, then generate the
@@ -240,6 +244,12 @@ public interface Rules {
      * @return true if the Java client should be generated
      */
     boolean generateJavaClient();
+
+    /**
+     *
+     * @return
+     */
+    boolean generateJavaSearchMode();
 
     IntrospectedTable getIntrospectedTable();
 }

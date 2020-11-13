@@ -55,6 +55,8 @@ public class Context extends PropertyHolder {
 
     private JavaModelGeneratorConfiguration javaModelGeneratorConfiguration;
 
+    private JavaSearchModelGeneratorConfiguration javaSearchModelGeneratorConfiguration;
+
     private JavaClientGeneratorConfiguration javaClientGeneratorConfiguration;
 
     private ArrayList<TableConfiguration> tableConfigurations;
@@ -114,6 +116,10 @@ public class Context extends PropertyHolder {
         return javaModelGeneratorConfiguration;
     }
 
+    public JavaSearchModelGeneratorConfiguration getJavaSearchModelGeneratorConfiguration() {
+        return javaSearchModelGeneratorConfiguration;
+    }
+
     public JavaTypeResolverConfiguration getJavaTypeResolverConfiguration() {
         return javaTypeResolverConfiguration;
     }
@@ -156,6 +162,11 @@ public class Context extends PropertyHolder {
         } else {
             javaModelGeneratorConfiguration.validate(errors, id);
         }
+
+        if (javaSearchModelGeneratorConfiguration != null) {
+            javaSearchModelGeneratorConfiguration.validate(errors, id);
+        }
+
 
         if (javaClientGeneratorConfiguration != null) {
             javaClientGeneratorConfiguration.validate(errors, id);
@@ -207,6 +218,11 @@ public class Context extends PropertyHolder {
     public void setJavaModelGeneratorConfiguration(
             JavaModelGeneratorConfiguration javaModelGeneratorConfiguration) {
         this.javaModelGeneratorConfiguration = javaModelGeneratorConfiguration;
+    }
+
+    public void setJavaSearchModelGeneratorConfiguration(
+            JavaSearchModelGeneratorConfiguration javaSearchModelGeneratorConfiguration) {
+        this.javaSearchModelGeneratorConfiguration = javaSearchModelGeneratorConfiguration;
     }
 
     public void setJavaTypeResolverConfiguration(
