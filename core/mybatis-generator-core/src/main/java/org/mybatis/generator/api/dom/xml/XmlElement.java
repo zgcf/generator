@@ -24,6 +24,8 @@ public class XmlElement implements VisitableElement {
 
     private List<VisitableElement> elements = new ArrayList<>();
 
+    private String value;
+
     private String name;
 
     public XmlElement(String name) {
@@ -40,6 +42,7 @@ public class XmlElement implements VisitableElement {
         super();
         attributes.addAll(original.attributes);
         elements.addAll(original.elements);
+        this.value = original.value;
         this.name = original.name;
     }
 
@@ -63,10 +66,18 @@ public class XmlElement implements VisitableElement {
         elements.add(index, element);
     }
 
+    public void setValue(String value){
+        this.value = value;
+    }
+
     public String getName() {
         return name;
     }
-    
+
+    public String getValue() {
+        return value;
+    }
+
     public boolean hasChildren() {
         return !elements.isEmpty();
     }

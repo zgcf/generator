@@ -75,7 +75,7 @@ public class UpdateByPrimaryKeySelectiveElementGenerator extends
                     .getParameterClause(introspectedColumn));
             sb.append(',');
 
-            isNotNullElement.addElement(new TextElement(sb.toString()));
+            isNotNullElement.setValue(sb.toString());
         }
 
         boolean and = false;

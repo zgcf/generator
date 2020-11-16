@@ -42,10 +42,20 @@ public class ElementRenderer implements ElementVisitor<Stream<String>> {
     }
 
     private Stream<String> renderWithoutChildren(XmlElement element) {
+        if(element.getValue() == null){
+            return Stream.of("<" //$NON-NLS-1$
+                    + element.getName()
+                    + renderAttributes(element)
+                    + " />"); //$NON-NLS-1$
+        }
         return Stream.of("<" //$NON-NLS-1$
                 + element.getName()
                 + renderAttributes(element)
-                + " />"); //$NON-NLS-1$
+                + ">"
+                + element.getValue()
+                + "</"
+                + element.getName()
+                + ">"); //$NON-NLS-1$
     }
 
     public Stream<String> renderWithChildren(XmlElement element) {

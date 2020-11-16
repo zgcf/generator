@@ -42,6 +42,8 @@ public class BaseColumnListElementGenerator extends AbstractXmlElementGenerator 
         Iterator<IntrospectedColumn> iter = introspectedTable
                 .getNonBLOBColumns().iterator();
         while (iter.hasNext()) {
+            XmlElement ifElement = new XmlElement("if");
+
             sb.append(MyBatis3FormattingUtilities.getSelectListPhrase(iter
                     .next()));
 

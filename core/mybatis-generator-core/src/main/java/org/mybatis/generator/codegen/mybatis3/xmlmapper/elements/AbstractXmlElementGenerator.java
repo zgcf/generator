@@ -94,4 +94,14 @@ public abstract class AbstractXmlElementGenerator extends AbstractGenerator {
 
         return ifElement;
     }
+
+
+    protected XmlElement getInsertBatchForEachElement() {
+        XmlElement answer = new XmlElement("forearch"); //$NON-NLS-1$
+        answer.addAttribute(new Attribute("collection","list"));
+        answer.addAttribute(new Attribute("item","obj"));
+        answer.addAttribute(new Attribute("index","index"));
+        answer.addAttribute(new Attribute("separator",","));
+        return answer;
+    }
 }

@@ -87,10 +87,13 @@ public abstract class IntrospectedTable {
         ATTR_EXAMPLE_WHERE_CLAUSE_ID,
         ATTR_BASE_COLUMN_LIST_ID,
         ATTR_BLOB_COLUMN_LIST_ID,
+        ATTR_SEARCH_RESULT_MAP_ID,
         ATTR_MYBATIS3_UPDATE_BY_EXAMPLE_WHERE_CLAUSE_ID,
         ATTR_MYBATIS3_SQL_PROVIDER_TYPE,
         ATTR_MYBATIS_DYNAMIC_SQL_SUPPORT_TYPE,
-        ATTR_SEARCH_RECORD_TYPE
+        ATTR_SEARCH_RECORD_TYPE,
+        ATTR_BASE_SELECT_WHERE_ID,
+        ATTR_BASE_CHOOSE_ORDER_BY_ID
     }
 
     protected TableConfiguration tableConfiguration;
@@ -428,12 +431,16 @@ public abstract class IntrospectedTable {
         setExampleWhereClauseId("Example_Where_Clause"); //$NON-NLS-1$
         setBaseColumnListId("Base_Column_List"); //$NON-NLS-1$
         setBlobColumnListId("Blob_Column_List"); //$NON-NLS-1$
+        setSearchResultMapId("SearchResultMap"); //$NON-NLS-1$
         setMyBatis3UpdateByExampleWhereClauseId("Update_By_Example_Where_Clause"); //$NON-NLS-1$
+        setBaseChooseOrderById("Base_Choose_OrderBy");
+        setBaseSelectWhereId("Base_Select_Where");
     }
 
     public void setBlobColumnListId(String s) {
         internalAttributes.put(InternalAttribute.ATTR_BLOB_COLUMN_LIST_ID, s);
     }
+    public void setSearchResultMapId(String s){internalAttributes.put(InternalAttribute.ATTR_SEARCH_RESULT_MAP_ID, s);}
 
     public void setBaseColumnListId(String s) {
         internalAttributes.put(InternalAttribute.ATTR_BASE_COLUMN_LIST_ID, s);
@@ -558,6 +565,11 @@ public abstract class IntrospectedTable {
     public String getBlobColumnListId() {
         return internalAttributes
                 .get(InternalAttribute.ATTR_BLOB_COLUMN_LIST_ID);
+    }
+
+    public String getSearchResultMapId(){
+        return internalAttributes
+                .get(InternalAttribute.ATTR_SEARCH_RESULT_MAP_ID);
     }
 
     public String getBaseColumnListId() {
@@ -1070,9 +1082,23 @@ public abstract class IntrospectedTable {
     public String getMyBatisDynamicSqlSupportType() {
         return internalAttributes.get(InternalAttribute.ATTR_MYBATIS_DYNAMIC_SQL_SUPPORT_TYPE);
     }
+
+    public String getBaseSelectWhereId() {
+        return internalAttributes.get(InternalAttribute.ATTR_BASE_SELECT_WHERE_ID);
+    }
+    public String getBaseChooseOrderById() {
+        return internalAttributes.get(InternalAttribute.ATTR_BASE_CHOOSE_ORDER_BY_ID);
+    }
     
     public void setMyBatisDynamicSqlSupportType(String s) {
         internalAttributes.put(InternalAttribute.ATTR_MYBATIS_DYNAMIC_SQL_SUPPORT_TYPE, s);
+    }
+
+    public void setBaseSelectWhereId(String s) {
+        internalAttributes.put(InternalAttribute.ATTR_BASE_SELECT_WHERE_ID, s);
+    }
+    public void setBaseChooseOrderById(String s) {
+        internalAttributes.put(InternalAttribute.ATTR_BASE_CHOOSE_ORDER_BY_ID, s);
     }
     
     public TargetRuntime getTargetRuntime() {
