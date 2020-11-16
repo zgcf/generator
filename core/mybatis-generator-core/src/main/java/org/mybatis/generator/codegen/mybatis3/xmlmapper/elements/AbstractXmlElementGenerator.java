@@ -64,6 +64,34 @@ public abstract class AbstractXmlElementGenerator extends AbstractGenerator {
         return answer;
     }
 
+    protected XmlElement getSelectByModeWhereElement() {
+        XmlElement answer = new XmlElement("where");
+        XmlElement include = new XmlElement("include");
+        include.addAttribute(new Attribute("refid", introspectedTable.getBaseSelectWhereId()));
+        answer.addElement(include);
+        return answer;
+    }
+
+    protected XmlElement getSelectByModelWhereLimitElement() {
+        XmlElement answer = new XmlElement("if");
+        answer.addAttribute(new Attribute("test", introspectedTable.getStartIndexName() + " != null"));
+        StringBuilder sb = new StringBuilder();
+        sb.append("limit #{");
+        sb.append(introspectedTable.getStartIndexName());
+        sb.append(",jdbcType=INTEGER}, #{");
+        sb.append(introspectedTable.getPageSizeName());
+        sb.append(",jdbcType=INTEGER}");
+        answer.setValue(sb.toString());
+        return answer;
+    }
+
+    protected XmlElement getSelectByModelWhereIncludeElement() {
+        XmlElement answer = new XmlElement("incluce");
+        answer.addAttribute(new Attribute("refid", introspectedTable.getBaseChooseOrderById()));
+        return answer;
+    }
+
+
     protected XmlElement getBlobColumnListElement() {
         XmlElement answer = new XmlElement("include"); //$NON-NLS-1$
         answer.addAttribute(new Attribute("refid", //$NON-NLS-1$

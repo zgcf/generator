@@ -53,6 +53,9 @@ public class XmlElement implements VisitableElement {
     public void addAttribute(Attribute attribute) {
         attributes.add(attribute);
     }
+    public void addAttribute(String attributeKey, String attributeVal) {
+        attributes.add(new Attribute(attributeKey,attributeVal));
+    }
 
     public List<VisitableElement> getElements() {
         return elements;

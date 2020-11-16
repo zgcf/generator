@@ -95,9 +95,8 @@ public class InsertBatchElementGenerator extends AbstractXmlElementGenerator {
 
             insertClause.append(MyBatis3FormattingUtilities
                     .getEscapedColumnName(introspectedColumn));
-            valuesClause.append("obj.");
             valuesClause.append(MyBatis3FormattingUtilities
-                    .getParameterClause(introspectedColumn));
+                    .getBatchParameterClause(introspectedColumn));
             if (i + 1 < columns.size()) {
                 insertClause.append(", "); //$NON-NLS-1$
                 valuesClause.append(", "); //$NON-NLS-1$
@@ -110,7 +109,7 @@ public class InsertBatchElementGenerator extends AbstractXmlElementGenerator {
 
                 valuesClauses.add(valuesClause.toString());
                 valuesClause.setLength(0);
-                OutputUtilities.xmlIndent(valuesClause, 1);
+                OutputUtilities.xmlIndent(valuesClause, 0);
             }
         }
 

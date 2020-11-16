@@ -23,21 +23,24 @@ public class BaseSelectWhereElementGenerator extends AbstractXmlElementGenerator
         answer.addAttribute(new Attribute("id", introspectedTable.getBaseSelectWhereId()));
 
         context.getCommentGenerator().addComment(answer);
-        StringBuilder sb = new StringBuilder();
-        Iterator<IntrospectedColumn> iter = introspectedTable
-                .getNonBLOBColumns().iterator();
-        while (iter.hasNext()) {
-            sb.append(MyBatis3FormattingUtilities.getSelectListPhrase(iter
-                    .next()));
 
-            if (iter.hasNext()) {
-                sb.append(", "); //$NON-NLS-1$
-            }
-
-            if (sb.length() > 80) {
-                answer.addElement(new TextElement(sb.toString()));
-                sb.setLength(0);
-            }
+        for (IntrospectedColumn introspectedColumn : introspectedTable
+                .getAllColumns()){
+            XmlElement element = new XmlElement("if");
+            String property = introspectedColumn.getJavaProperty();
+            element.addAttribute("test",property + " != null and "+ property +"!= ''");
+            StringBuilder sb = new StringBuilder();
+            sb.append("and ");
+            sb.append(MyBatis3FormattingUtilities.getRenamedColumnNameForResultMap(introspectedColumn));
+            sb.append(" = ");
+            sb.append("#{");
+            sb.append(property);
+            sb.append(",jdbcType=");
+            sb.append(introspectedColumn.getJdbcTypeName());
+            sb.append("}");
+            element.setValue(sb.toString());
+            answer.addElement(element);
         }
+        parentElement.addElement(answer);
     }
 }

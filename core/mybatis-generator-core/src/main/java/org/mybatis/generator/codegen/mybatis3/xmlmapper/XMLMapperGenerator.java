@@ -51,6 +51,10 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         addBlobColumnListElement(answer);
         addSelectByExampleWithBLOBsElement(answer);
         addSelectByExampleWithoutBLOBsElement(answer);
+        addBaseSelectWhereElement(answer);
+        addChooseOrderByElement(answer);
+        addSelectByModelByElement(answer);
+        addCountByModelByElement(answer);
         addSelectByPrimaryKeyElement(answer);
         addDeleteByPrimaryKeyElement(answer);
         addDeleteByExampleElement(answer);
@@ -114,6 +118,13 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         }
     }
 
+    protected void addBaseSelectWhereElement(XmlElement parentElement) {
+        if (introspectedTable.getRules().generateBlobColumnList()) {
+            AbstractXmlElementGenerator elementGenerator = new BaseSelectWhereElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+
     protected void addSelectByExampleWithoutBLOBsElement(
             XmlElement parentElement) {
         if (introspectedTable.getRules().generateSelectByExampleWithoutBLOBs()) {
@@ -141,6 +152,28 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }
+
+    protected void addChooseOrderByElement(XmlElement parentElement) {
+        if (introspectedTable.getRules().generateSelectByPrimaryKey()) {
+            AbstractXmlElementGenerator elementGenerator = new BaseChooseOrderByElementgenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+
+    protected void addSelectByModelByElement(XmlElement parentElement) {
+        if (introspectedTable.getRules().generateSelectByPrimaryKey()) {
+            AbstractXmlElementGenerator elementGenerator = new SelectByModelElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+
+    protected void addCountByModelByElement(XmlElement parentElement) {
+        if (introspectedTable.getRules().generateSelectByPrimaryKey()) {
+            AbstractXmlElementGenerator elementGenerator = new CountByModelElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+
 
     protected void addDeleteByExampleElement(XmlElement parentElement) {
         if (introspectedTable.getRules().generateDeleteByExample()) {

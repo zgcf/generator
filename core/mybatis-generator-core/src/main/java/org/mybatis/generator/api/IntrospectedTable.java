@@ -93,7 +93,12 @@ public abstract class IntrospectedTable {
         ATTR_MYBATIS_DYNAMIC_SQL_SUPPORT_TYPE,
         ATTR_SEARCH_RECORD_TYPE,
         ATTR_BASE_SELECT_WHERE_ID,
-        ATTR_BASE_CHOOSE_ORDER_BY_ID
+        ATTR_BASE_CHOOSE_ORDER_BY_ID,
+        ATTR_ORDER_FLAG_NAME,
+        ATTR_ORDER_FIELD_NAME,
+        ATTR_START_INDEX_NAME,
+        ATTR_PAGE_SIZE_NAME
+
     }
 
     protected TableConfiguration tableConfiguration;
@@ -433,8 +438,12 @@ public abstract class IntrospectedTable {
         setBlobColumnListId("Blob_Column_List"); //$NON-NLS-1$
         setSearchResultMapId("SearchResultMap"); //$NON-NLS-1$
         setMyBatis3UpdateByExampleWhereClauseId("Update_By_Example_Where_Clause"); //$NON-NLS-1$
-        setBaseChooseOrderById("Base_Choose_OrderBy");
+        setBaseChooseOrderById("Base_Choose_Order_By");
         setBaseSelectWhereId("Base_Select_Where");
+        setOrderFlagName("orderFlag");
+        setOrderFieldName("orderField");
+        setPageSizeName("pageSize");
+        setStartIndexName("startIndex");
     }
 
     public void setBlobColumnListId(String s) {
@@ -1089,6 +1098,23 @@ public abstract class IntrospectedTable {
     public String getBaseChooseOrderById() {
         return internalAttributes.get(InternalAttribute.ATTR_BASE_CHOOSE_ORDER_BY_ID);
     }
+
+    public String getOrderFlagName() {
+        return internalAttributes.get(InternalAttribute.ATTR_ORDER_FLAG_NAME);
+    }
+
+
+    public String getOrderFieldName(){
+        return internalAttributes.get(InternalAttribute.ATTR_ORDER_FIELD_NAME);
+    }
+
+    public String getStartIndexName(){
+        return internalAttributes.get(InternalAttribute.ATTR_START_INDEX_NAME);
+    }
+
+    public String getPageSizeName(){
+        return internalAttributes.get(InternalAttribute.ATTR_PAGE_SIZE_NAME);
+    }
     
     public void setMyBatisDynamicSqlSupportType(String s) {
         internalAttributes.put(InternalAttribute.ATTR_MYBATIS_DYNAMIC_SQL_SUPPORT_TYPE, s);
@@ -1099,6 +1125,22 @@ public abstract class IntrospectedTable {
     }
     public void setBaseChooseOrderById(String s) {
         internalAttributes.put(InternalAttribute.ATTR_BASE_CHOOSE_ORDER_BY_ID, s);
+    }
+
+    public void setOrderFlagName(String s){
+        internalAttributes.put(InternalAttribute.ATTR_ORDER_FLAG_NAME, s);
+    }
+
+    public void setOrderFieldName(String s){
+        internalAttributes.put(InternalAttribute.ATTR_ORDER_FIELD_NAME, s);
+    }
+
+    public void setStartIndexName(String s){
+        internalAttributes.put(InternalAttribute.ATTR_START_INDEX_NAME, s);
+    }
+
+    public void setPageSizeName(String s){
+        internalAttributes.put(InternalAttribute.ATTR_PAGE_SIZE_NAME, s);
     }
     
     public TargetRuntime getTargetRuntime() {
