@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!-- 该文件用于产生正式的orm文件，注意不要覆盖已经定制过的相关文件(已经产生过的表，不要在后边"<table .... />"标签中出现)
+cd D:\Projects\lecai\MyBatisGenerator
+d:
+java -jar mybatis-generator-core-1.3.2.jar -configfile resources/mybatis/config_agent_bet.xml
+
+     -->
+
+<generatorConfiguration>
+  <classPathEntry location="D:\Projects_old\lc\docs\MyBatisGenerator\mysql-connector-java-5.1.27-bin.jar" />
+
+  <context id="lecai" targetRuntime="MyBatis3">
+
+    <commentGenerator>
+      <property name="suppressDate" value="true" />
+      <property name="suppressAllComments" value="false" /><!-- 是否取消注释 -->
+      <property name="addRemarkComments" value="true" />
+      <property name="author" value="system" /><!--作者信息-->
+    </commentGenerator>
+
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/glp_testa?useUnicode=true&amp;characterEncoding=utf-8"
+                    userId="root" password="" >
+    </jdbcConnection>
+
+    <javaTypeResolver>
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="com.glprop.dao.entity.contract" targetProject="D:\Projects_old\lc\docs\MyBatisGenerator\src">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <javaSearchModelGenerator targetPackage="com.glprop.dao.vo.contract" targetProject="D:\Projects_old\lc\docs\MyBatisGenerator\src">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaSearchModelGenerator>
+
+    <sqlMapGenerator targetPackage="com.glprop.dao.mapping.contract" targetProject="D:\Projects_old\lc\docs\MyBatisGenerator\src">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.glprop.dao.mapping.contract" targetProject="D:\Projects_old\lc\docs\MyBatisGenerator\src">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+    <table tableName="bbs" domainObjectName="Bbs" enableSelectByExample="false"
+           enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+      <property name="useActualColumnNames" value="false" />
+      <property name="rootClass" value="com.glprop.common.BaseModel" />
+    </table>
+
+    <!--
+            <table tableName="business" domainObjectName="Business" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+            <table tableName="business_form" domainObjectName="BusinessForm" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+            <table tableName="form" domainObjectName="Form" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+            <table tableName="form_item" domainObjectName="FormItem" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+
+
+            <table tableName="finance_apply_file" domainObjectName="FinanceApplyFile" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+            <table tableName="finance_warning_collection" domainObjectName="FinanceWarnngCollection" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+            <table tableName="shop_wallet" domainObjectName="ShopWallet" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+            <table tableName="shop_wallet_log" domainObjectName="ShopWalletLog" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+            <table tableName="finance_recharge" domainObjectName="FinanceRecharge" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+            <table tableName="finance_bank_card" domainObjectName="FinanceBankCard" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+            <table tableName="finance_loan_collection" domainObjectName="FinanceLoanCollection" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+            <table tableName="shop_count_info" domainObjectName="ShopCountInfo" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+            <table tableName="finance_product" domainObjectName="FinanceProduct" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+            <table tableName="finance_loan_order" domainObjectName="FinanceLoanOrder" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+            <table tableName="finance_loan_bill" domainObjectName="FinanceLoanBill" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+            <table tableName="finance_flow_step" domainObjectName="FinanceFlowStep" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+            <table tableName="finance_apply" domainObjectName="FinanceApply" enableSelectByExample="false"
+                enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+                <property name="useActualColumnNames" value="false" />
+            </table>
+    <table tableName="bet_record" domainObjectName="BetRecord" />
+            <table tableName="bet_score" domainObjectName="BetScore" />
+            <table tableName="agent" domainObjectName="Agent" />
+            <table tableName="user_notice" domainObjectName="UserNotice" />
+            <table tableName="agent" domainObjectName="Agent" />
+            <table tableName="agent_login" domainObjectName="AgentLogin" />
+            <table tableName="agent_setting" domainObjectName="AgentSetting" />
+            <table tableName="agent_login_log" domainObjectName="AgentLoginLog" />
+     -->
+
+  </context>
+</generatorConfiguration>
