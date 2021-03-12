@@ -45,10 +45,10 @@ public class CountByModelMethodGenerator extends AbstractJavaMapperMethodGenerat
         importedTypes.add(parameterType);
         method.addParameter(new Parameter(parameterType, "searchVO"));
 
-        String remark ="在表"+introspectedTable.getFullyQualifiedTable()+"新增一条记录(没有值的字段为默认值)";
+        String remark ="在表"+introspectedTable.getFullyQualifiedTable()+"按照条件统计记录(有值的字段为条件)";
         List<String> list = new ArrayList<>() ;
-        list.add(" * @param record 将要新增的记录");
-        list.add(" * @return 返回新增记录数");
+        list.add(" * @param searchVO 将要查询的条件");
+        list.add(" * @return 返回统计的记录数");
         context.getCommentGenerator().addGeneralMethodComment(method,remark,list);
 
         addMapperAnnotations(method);

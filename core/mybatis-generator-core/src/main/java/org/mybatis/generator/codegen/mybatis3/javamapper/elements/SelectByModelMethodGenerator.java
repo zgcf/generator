@@ -55,7 +55,7 @@ public class SelectByModelMethodGenerator extends AbstractJavaMapperMethodGenera
 
         String remark ="在表"+introspectedTable.getFullyQualifiedTable()+"按照条件查找记录(有值的字段为条件)";
         List<String> list = new ArrayList<>() ;
-        list.add(" * @param record 将要新增的记录");
+        list.add(" * @param searchVO 将要查询的条件");
         list.add(" * @return 返回查找出的记录");
         context.getCommentGenerator().addGeneralMethodComment(method,remark,list);
 

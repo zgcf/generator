@@ -34,7 +34,7 @@ public class CountByModelElementGenerator extends AbstractXmlElementGenerator{
     @Override
     public void addElements(XmlElement parentElement) {
         XmlElement answer = new XmlElement("select");
-        answer.addAttribute(new Attribute("id", introspectedTable.getSelectByModelStatementId()));
+        answer.addAttribute(new Attribute("id", introspectedTable.getCountByModelStatementId()));
         answer.addAttribute(new Attribute("resultType", "java.lang.Integer"));
 
         FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType(

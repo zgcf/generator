@@ -119,7 +119,7 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
     }
 
     protected void addBaseSelectWhereElement(XmlElement parentElement) {
-        if (introspectedTable.getRules().generateBlobColumnList()) {
+        if (introspectedTable.getRules().generateSelectByPrimaryKey()){
             AbstractXmlElementGenerator elementGenerator = new BaseSelectWhereElementGenerator();
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
