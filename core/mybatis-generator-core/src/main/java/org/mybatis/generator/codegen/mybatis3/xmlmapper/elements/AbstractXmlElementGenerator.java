@@ -125,7 +125,7 @@ public abstract class AbstractXmlElementGenerator extends AbstractGenerator {
 
 
     protected XmlElement getInsertBatchForEachElement() {
-        XmlElement answer = new XmlElement("forearch"); //$NON-NLS-1$
+        XmlElement answer = new XmlElement("foreach"); //$NON-NLS-1$
         answer.addAttribute(new Attribute("collection","list"));
         answer.addAttribute(new Attribute("item","obj"));
         answer.addAttribute(new Attribute("index","index"));
