@@ -86,7 +86,7 @@ public abstract class AbstractXmlElementGenerator extends AbstractGenerator {
     }
 
     protected XmlElement getSelectByModelWhereIncludeElement() {
-        XmlElement answer = new XmlElement("incluce");
+        XmlElement answer = new XmlElement("include");
         answer.addAttribute(new Attribute("refid", introspectedTable.getBaseChooseOrderById()));
         return answer;
     }
