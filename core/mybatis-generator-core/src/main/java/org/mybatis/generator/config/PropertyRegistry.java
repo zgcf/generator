@@ -32,6 +32,7 @@ public class PropertyRegistry {
      * recognized by table and java model generator.
      */
     public static final String ANY_ROOT_CLASS = "rootClass"; //$NON-NLS-1$
+    public static final String ANY_USE_LOM_BOX = "useLombok"; //$NON-NLS-1$
     public static final String ANY_IMMUTABLE = "immutable"; //$NON-NLS-1$
     public static final String ANY_CONSTRUCTOR_BASED = "constructorBased"; //$NON-NLS-1$
 
@@ -44,6 +45,7 @@ public class PropertyRegistry {
     public static final String TABLE_USE_ACTUAL_COLUMN_NAMES = "useActualColumnNames"; //$NON-NLS-1$
     public static final String TABLE_USE_COMPOUND_PROPERTY_NAMES = "useCompoundPropertyNames"; //$NON-NLS-1$
     public static final String TABLE_IGNORE_QUALIFIERS_AT_RUNTIME = "ignoreQualifiersAtRuntime"; //$NON-NLS-1$
+    public static final String TABLE_USE_LOMBOK = "useLombok"; //$NON-NLS-1$
     public static final String TABLE_RUNTIME_CATALOG = "runtimeCatalog"; //$NON-NLS-1$
     public static final String TABLE_RUNTIME_SCHEMA = "runtimeSchema"; //$NON-NLS-1$
     public static final String TABLE_RUNTIME_TABLE_NAME = "runtimeTableName"; //$NON-NLS-1$

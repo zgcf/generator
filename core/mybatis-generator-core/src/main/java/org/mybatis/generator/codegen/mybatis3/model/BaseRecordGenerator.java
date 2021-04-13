@@ -18,6 +18,7 @@ package org.mybatis.generator.codegen.mybatis3.model;
 import static org.mybatis.generator.internal.util.JavaBeansUtil.getJavaBeansField;
 import static org.mybatis.generator.internal.util.JavaBeansUtil.getJavaBeansGetter;
 import static org.mybatis.generator.internal.util.JavaBeansUtil.getJavaBeansSetter;
+import static org.mybatis.generator.internal.util.StringUtility.isTrue;
 import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.codegen.AbstractJavaGenerator;
 import org.mybatis.generator.codegen.RootClassInfo;
+import org.mybatis.generator.config.PropertyRegistry;
 
 public class BaseRecordGenerator extends AbstractJavaGenerator {
 
@@ -93,6 +95,10 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
                 topLevelClass.addField(field);
                 topLevelClass.addImportedType(field.getType());
             }
+            if (isTrue(introspectedTable.getTableConfiguration()
+                    .getProperty(PropertyRegistry.TABLE_USE_LOMBOK))){
+                continue;
+            }
 
             Method method = getJavaBeansGetter(introspectedColumn, context, introspectedTable);
             if (plugins.modelGetterMethodGenerated(method, topLevelClass,
@@ -110,7 +116,11 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
                 }
             }
         }
-
+        if (isTrue(introspectedTable.getTableConfiguration()
+                .getProperty(PropertyRegistry.TABLE_USE_LOMBOK))){
+            topLevelClass.addImportedType(FullyQualifiedJavaType.getLombokDataInstance());
+            topLevelClass.addImportedType(FullyQualifiedJavaType.getLombokToStringInstance());
+        }
         List<CompilationUnit> answer = new ArrayList<>();
         if (context.getPlugins().modelBaseRecordClassGenerated(
                 topLevelClass, introspectedTable)) {

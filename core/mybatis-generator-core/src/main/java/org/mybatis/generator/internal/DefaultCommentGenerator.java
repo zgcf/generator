@@ -224,26 +224,29 @@ public class DefaultCommentGenerator implements CommentGenerator {
     @Override
     public void addModelClassComment(JavaElement topLevelClass,
             IntrospectedTable introspectedTable) {
-        if (suppressAllComments ) {
-            return;
-        }
+        if (!suppressAllComments ) {
+            topLevelClass.addJavaDocLine("/**");
 
-        topLevelClass.addJavaDocLine("/**");
-
-        String remarks = introspectedTable.getRemarks();
-        if (addRemarkComments && StringUtility.stringHasValue(remarks)) {
-            String[] remarkLines = remarks.split(System.getProperty("line.separator"));
-            for (String remarkLine : remarkLines) {
-                topLevelClass.addJavaDocLine(" * " + remarkLine);
+            String remarks = introspectedTable.getRemarks();
+            if (addRemarkComments && StringUtility.stringHasValue(remarks)) {
+                String[] remarkLines = remarks.split(System.getProperty("line.separator"));
+                for (String remarkLine : remarkLines) {
+                    topLevelClass.addJavaDocLine(" * " + remarkLine);
+                }
             }
+            topLevelClass.addJavaDocLine(" * @author " + author);
+            topLevelClass .addJavaDocLine(" * @version 1.0");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/M/d HH:mm");
+            topLevelClass.addJavaDocLine(" * @date " + dateFormat.format(new Date()));
+            topLevelClass.addJavaDocLine(" */");
         }
-        topLevelClass.addJavaDocLine(" * @author " + author);
-        topLevelClass .addJavaDocLine(" * @version 1.0");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/M/d HH:mm");
-        topLevelClass.addJavaDocLine(" * @date " + dateFormat.format(new Date()));
+        if (isTrue(introspectedTable.getTableConfiguration()
+                .getProperty(PropertyRegistry.TABLE_USE_LOMBOK))){
+            topLevelClass.addJavaDocLine("@Data");
+            topLevelClass.addJavaDocLine("@ToString");
+        }
 
 
-        topLevelClass.addJavaDocLine(" */");
     }
 
     @Override

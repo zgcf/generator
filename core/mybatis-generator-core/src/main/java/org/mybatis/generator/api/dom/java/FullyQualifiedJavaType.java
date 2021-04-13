@@ -41,6 +41,10 @@ public class FullyQualifiedJavaType implements
 
     private static FullyQualifiedJavaType generatedCriteriaInstance = null;
 
+    private static FullyQualifiedJavaType lombokDataInstance = null;
+
+    private static FullyQualifiedJavaType lombokToStringInstance = null;
+
     /** The short name without any generic arguments. */
     private String baseShortName;
 
@@ -274,6 +278,20 @@ public class FullyQualifiedJavaType implements
     public static final FullyQualifiedJavaType getNewIteratorInstance() {
         // always return a new instance because the type may be parameterized
         return new FullyQualifiedJavaType("java.util.Iterator"); //$NON-NLS-1$
+    }
+
+    public static final FullyQualifiedJavaType getLombokDataInstance() {
+        if (lombokDataInstance == null) {
+            lombokDataInstance = new FullyQualifiedJavaType("lombok.Data"); //$NON-NLS-1$
+        }
+        return lombokDataInstance; //$NON-NLS-1$
+    }
+
+    public static final FullyQualifiedJavaType getLombokToStringInstance() {
+        if (lombokToStringInstance == null) {
+            lombokToStringInstance = new FullyQualifiedJavaType("lombok.ToString"); //$NON-NLS-1$
+        }
+        return lombokToStringInstance; //$NON-NLS-1$
     }
 
     public static final FullyQualifiedJavaType getStringInstance() {

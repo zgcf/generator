@@ -16,6 +16,7 @@
 package org.mybatis.generator.codegen;
 
 import static org.mybatis.generator.internal.util.JavaBeansUtil.getGetterMethodName;
+import static org.mybatis.generator.internal.util.StringUtility.isTrue;
 
 import java.util.List;
 import java.util.Properties;
@@ -63,6 +64,15 @@ public abstract class AbstractJavaGenerator extends AbstractGenerator {
         }
 
         return rootClass;
+    }
+
+    public boolean getUseLomBox() {
+        String usedLomBox = introspectedTable
+                .getTableConfigurationProperty(PropertyRegistry.ANY_USE_LOM_BOX);
+        if(usedLomBox == null){
+            usedLomBox = "false";
+        }
+        return isTrue(usedLomBox);
     }
 
     protected void addDefaultConstructor(TopLevelClass topLevelClass) {
